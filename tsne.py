@@ -1,4 +1,4 @@
-
+from scipy.misc import logsumexp
 from tqdm import tqdm
 import numpy as Math
 import pylab as Plot
@@ -9,8 +9,13 @@ def Hbeta(D = Math.array([]), beta = 1.0):
 	# Compute P-row and corresponding perplexity
 	P = Math.exp(-D.copy() * beta);
 	sumP = sum(P);
-	H = Math.log(sumP) + beta * Math.sum(D * P) / sumP;
-	P = P / sumP;
+	#H = Math.log(sumP) + beta * Math.sum(D * P) / sumP;
+	logH = Math.log(Math.log(sumP) + beta * Math.sum(D * P)) - Math.log(sumP)
+	H = Math.exp(logH)
+
+	#P = P / sumP;
+	logP = Math.log(P) - Math.log(sumP)
+	P = Math.exp(logP)
 	return H, P;
 
 
@@ -95,9 +100,10 @@ def tsne(X = Math.array([]), no_dims = 2, initial_dims = 50, perplexity = 15.0):
 	#	return -1;
 
 	# Initialize variables
-        print 'PCA Is called '
+	print 'PCA Is called '
 	X = pca(X, initial_dims);
 	(n, d) = X.shape;
+	print "n = {}, d ={}".format(n, d)
 	max_iter = 2000;
 	initial_momentum = 0.5;
 	final_momentum = 0.8;

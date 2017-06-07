@@ -73,9 +73,9 @@ def tsne_viz(
     ax.set_yticks([])
     ax.set_title(title)
     # Text labels:
-    # words_of_interest = [u'蒋介石', u'毛泽东', u'孙中山', u'国民党', u'共产党', u'马克思']
-    words_of_interest = [u'蒋中正', u'毛泽东', u'孙中山', u'国民党', u'共产党', u'马克思']
-    chi2eng = {u'蒋中正': 'Chiang Kai-shek', u'毛泽东':'Mao Zedong' , u'孙中山':'Sun Yat-sen', u'国民党': 'KMT', u'共产党': 'CPC', u'马克思': 'Max'}
+    words_of_interest = [u'蒋介石', u'毛泽东', u'孙中山', u'国民党', u'共产党', u'马克思']
+    #words_of_interest = [u'蒋中正', u'毛泽东', u'孙中山', u'国民党', u'共产党', u'马克思']
+    chi2eng = {u'蒋介石': 'Chiang Kai-shek', u'毛泽东':'Mao Zedong' , u'孙中山':'Sun Yat-sen', u'国民党': 'KMT', u'共产党': 'CPC', u'马克思': 'Max'}
     for word, x, y, color in zip(vocab, xvals, yvals, colors):
         if word.decode('utf-8') in words_of_interest:
             #ax.annotate(word.decode('utf-8'), (x, y), fontsize=18, color='red')
@@ -91,9 +91,10 @@ def tsne_viz(
 
 
 if __name__ == "__main__":
-    title = raw_input("Input hk, tw or ma: ")
+    title = raw_input("Input hk, tw, ma or smc: ")
     src_dir= title + '.txt'
-    wv = build(src_dir, delimiter=' ', header=True, quoting=csv.QUOTE_NONE)
+    wv = build(src_dir, delimiter='\t', header=False, quoting=csv.QUOTE_NONE)
+    #print wv
     tsne_viz(mat=np.array(wv[0]),title=title,rownames=wv[1])
 
 
